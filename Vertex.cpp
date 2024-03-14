@@ -34,8 +34,16 @@ void Vertex::Info()
 
 void Vertex::computeAngleType()
 {
-    this->IncidentEdgeA = Line(this->x_coord, adjVertexNext->x_coord, this->y_coord, adjVertexNext->y_coord);
-    this->IncidentEdgeB = Line(this->x_coord, adjVertexPrev->x_coord, this->y_coord, adjVertexNext->y_coord);
+    this->angleType = 'E';
+    this->IncidentEdgeA = Line(this->x_coord, this->y_coord, adjVertexNext->x_coord, adjVertexNext->y_coord);
+    this->IncidentEdgeB = Line(this->x_coord, this->y_coord, adjVertexPrev->x_coord, adjVertexPrev->y_coord);
+
+    cout << "Edge A" << endl;
+    this->IncidentEdgeA.Show();
+
+    cout << "Edge B" << endl;
+    this->IncidentEdgeB.Show();
+
     int costheta = Utils::dotProductSign(this->IncidentEdgeA, this->IncidentEdgeB);
     if(costheta > 0) {
         this->angleType = 'A';
@@ -50,6 +58,12 @@ void Vertex::computeAngleType()
 
 void Vertex::setAngleBisector()
 {
+    this->computeAngleType();
+
+    if(this->angleType == 'E') {
+        return;
+    }
+
     Line bisector;
 
     if(this->IncidentEdgeA.constant * this->IncidentEdgeB.constant < 0) {

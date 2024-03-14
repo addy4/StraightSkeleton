@@ -70,6 +70,8 @@ int main(int argc, char const *argv[])
     while (i <= NUM_V)
     {
         itV->Info();
+        itV->setAngleBisector();
+        itV->angleBisector.Show();
         itV = itV->adjVertexNext;
         i++;
     }

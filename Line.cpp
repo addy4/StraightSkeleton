@@ -1,5 +1,8 @@
 #include "Line.hpp"
 #include <cmath>
+#include <iostream>
+
+using namespace std;
 
 Line::Line()
 {    
@@ -22,7 +25,7 @@ Line::Line(double xA, double yA, double xB, double yB)
     // Normalized
     this->normalizedXcoeff = this->x_coeff/denom;
     this->normalizedYcoeff = this->y_coeff/denom;
-    this->constant = this->constant/denom;  
+    this->normalizedConstant = this->constant/denom;  
 }
 
 Line::~Line()
@@ -34,4 +37,11 @@ void Line::reverseSign()
     this->x_coeff = -1 * this->x_coeff;
     this->y_coeff = -1 * this->y_coeff;
     this->constant = -1 * this->constant;
+}
+
+void Line::Show()
+{
+    cout << "A: " << x_coeff << endl;
+    cout << "B: " << y_coeff << endl;
+    cout << "C: " << constant << endl;
 }

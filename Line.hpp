@@ -23,6 +23,7 @@ public:
     ~Line();
 
     void reverseSign();
+    void Show();
 };
 
 #endif //LINE_HPPP
