@@ -1,7 +1,7 @@
 all: solution.exe
 
-solution.exe: Solution.o Line.o Vertex.o Edge.o Segment.o Polygon.o
-	g++ -o solution.exe Solution.o Line.o Vertex.o Edge.o Segment.o Polygon.o
+solution.exe: Solution.o Line.o Vertex.o Edge.o Segment.o Polygon.o Utils.o
+	g++ -o solution.exe Solution.o Line.o Vertex.o Edge.o Segment.o Polygon.o Utils.o
 
 Solution.o: Solution.cpp
 	g++ -c Solution.cpp
@@ -20,6 +20,9 @@ Segment.o: Segment.cpp
 
 Polygon.o: Polygon.cpp
 	g++ -c Polygon.cpp
+
+Utils.o: Utils.cpp
+	g++ -c Utils.cpp
 
 clean:
 	del solution.exe *.o

@@ -14,6 +14,9 @@ public:
     double x_coord;
     double y_coord;
     double angle; // interior, part of polygon
+    char angleType; // 'A', 'O'
+    Line IncidentEdgeA;
+    Line IncidentEdgeB;
     Line angleBisector;
     Vertex* adjVertexPrev;
     Vertex* adjVertexNext;
@@ -24,6 +27,8 @@ public:
     ~Vertex();
 
     void Info();
+    void computeAngleType();
+    void setAngleBisector();
 };
 
 #endif // VERTEX_HPP
