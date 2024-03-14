@@ -2,10 +2,8 @@
 
 Edge::Edge()
 {
-
 }
 
 Edge::~Edge()
-{
-    
+{    
 }
