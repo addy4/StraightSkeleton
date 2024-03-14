@@ -22,12 +22,23 @@
 #include "Segment.hpp"
 #include "Polygon.hpp"
 
+using namespace std;
+
 int main(int argc, char const *argv[])
 {
-    Line* l = new Line();
-    Vertex* v = new Vertex();
-    Edge* e = new Edge();
-    Segment* s = new Segment();
-    Polygon* p = new Polygon();
+    Vertex v1(10, 12);
+    Vertex v2(3, 4);
+    Vertex v3(12,19);
+    
+    Polygon poly;
+    poly.addEdge(v1, v2);
+    poly.addEdge(v2, v3);
+    poly.addEdge(v3, v1);
+
+    for(auto e : poly.LAE.entities) {
+        e.Info();
+        cout << endl;
+    }
+
     return 0;
 }

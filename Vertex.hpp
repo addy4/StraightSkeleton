@@ -2,6 +2,11 @@
 #define VERTEX_HPP
 
 #include "Line.hpp"
+#include <vector>
+
+using namespace std;
+
+class Edge;
 
 class Vertex
 {
@@ -12,6 +17,7 @@ public:
     Line angleBisector;
     Vertex* adjVertexA;
     Vertex* adjVertexB;
+    vector<Edge*> incidentEdges;
 
     Vertex();
     Vertex(double xcord, double cord);

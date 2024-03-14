@@ -14,7 +14,10 @@ public:
     Vertex collapsePoint;
 
     Edge();
+    Edge(Vertex A, Vertex B);
     ~Edge();
+
+    void Info();
 };
 
 #endif //EDGE_HPP
