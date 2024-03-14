@@ -7,8 +7,8 @@ class Edge
 {
 public:
     Line Eqn;
-    Vertex* x_A;
-    Vertex* x_B;
+    Vertex* A;
+    Vertex* B;
     Edge* adjEdgePrev;
     Edge* adjEdgeNext;
     Vertex collapsePoint;
@@ -18,6 +18,7 @@ public:
     ~Edge();
 
     void Info();
+    void setEqn();
 };
 
 #endif //EDGE_HPP

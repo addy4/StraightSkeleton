@@ -13,7 +13,9 @@ template<typename T>
 class CircularConnectedList
 {
 public:
-    list<T> entities;
+    T* head;
+    T* tail;
+    int size;
 };
 
 // Each iteration will see a different polygon as wavefront
@@ -21,14 +23,8 @@ class Polygon
 {
 public:
     
-    CircularConnectedList<Edge*> LAE; // List of active edges: LAE
-    CircularConnectedList<Vertex*> LAV; // List of active vertices: LAV
-
-    Vertex headVertex; // Head vertex points to tail vertex
-    Edge headEdge; // Head edge points to tail edge
-
-    Vertex tailVertex;
-    Edge tailEdge;
+    CircularConnectedList<Edge> LAE; // List of active edges: LAE
+    CircularConnectedList<Vertex> LAV; // List of active vertices: LAV
 
     Polygon();
     ~Polygon();

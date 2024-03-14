@@ -5,6 +5,8 @@ using namespace std;
 
 Polygon::Polygon()
 {
+    this->LAE.size = 0;
+    this->LAV.size = 0;
 }
 
 Polygon::~Polygon()
@@ -13,56 +15,48 @@ Polygon::~Polygon()
 
 void Polygon::addVertex(Vertex* v, int i, int total)
 {
-    // add vertex to LAV
-    // LAV.back().adjVertexNext = v;
-    // v.adjVertexPrev = LAV.back();
-    // LAV.push_back(v);
-    // if i == total - 1
-    //      v.adjVertexNext = LAV.front()
-    //      LAV.front().prev = v;
-    
-    if(i > 0) {
-        LAV.entities.back()->adjVertexNext = v;
-        v->adjVertexPrev = LAV.entities.back();
-    }  
-    if(i == total - 1) {
-        v->adjVertexNext = LAV.entities.front();
-        LAV.entities.front()->adjVertexPrev = v;
+    if(this->LAV.size == 0) {
+        this->LAV.head = v;
+        this->LAV.tail = v;
+        this->LAV.size++;
+        return;
     }
-    LAV.entities.push_back(v);
+    if(this->LAV.size > 0) {
+        this->LAV.tail->adjVertexNext = v;
+        v->adjVertexPrev = this->LAV.tail;
+        v->adjVertexNext = this->LAV.head;
+        this->LAV.head->adjVertexPrev = v;
+        this->LAV.tail = v;
+    }
+
+    //cout << "..." << endl;
+    //this->LAV.head->Info();
+    //this->LAV.tail->Info();
+    //cout << "..." << endl;
+
+    this->LAV.size++;
 }
 
 void Polygon::addEdge(Vertex* v1, Vertex* v2, int i, int total)
 {
-    // Edge e(v1, v2);
-    // v1.incidentEdges.push_back(e);
-    // v2.incidentEdges.push_back(e);
-    // add e to LAE
-    // LAE.back().adjEdgeNext = e;
-    // e.adjEdgePrev = LAE.back();
-    // LAE.push_back(e);
-    // if i == total - 1
-    //      e.adjEdgeNext = LAE.front()
-    //      LAE.front().prev = e;
-
     Edge* e = new Edge(v1, v2);
-
-    cout << "qwqwqw" << endl;
-
+    //e->Info();
     v1->incidentEdges.push_back(e);
     v2->incidentEdges.push_back(e);
 
-    cout << "ttt" << endl;
-
-    if(i > 0) {
-        LAE.entities.back()->adjEdgeNext = e;
-        e->adjEdgePrev = LAE.entities.back();
+    if(this->LAE.size == 0) {
+        this->LAE.head = e;
+        this->LAE.tail = e;
+        this->LAE.size++;
+        return;
     }
 
-    if(i == total - 1) {
-        e->adjEdgeNext = LAE.entities.front();
-        LAE.entities.front()->adjEdgePrev = e;
+    if(this->LAE.size > 0) {
+        this->LAE.tail->adjEdgeNext = e;
+        e->adjEdgePrev = this->LAE.tail;
+        e->adjEdgeNext = this->LAE.head;
+        this->LAE.head->adjEdgePrev = e;
+        this->LAE.tail = e;
     }
-    LAE.entities.push_back(e);
-    cout << "qs" << endl;
+    this->LAE.size++;
 }

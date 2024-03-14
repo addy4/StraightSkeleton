@@ -44,49 +44,47 @@ int main(int argc, char const *argv[])
     IpVertices.push_back(addedVertex);
     
     Polygon poly;
+    Vertex* head = IpVertices[i];
     Vertex* prev = IpVertices[i];
     poly.addVertex(prev, i, NUM_V);
-
+    prev->Info();
     i++;
 
     while(i < NUM_V) {
 
         Vertex* currVertex = IpVertices[i];
+        currVertex->Info();
         poly.addVertex(currVertex, i, NUM_V);
-
-        // Vertices...
-        for(auto v : poly.LAV.entities) {
-            v->Info();
-        }
-
-        cout << endl;
-
         poly.addEdge(prev, currVertex, i - 1, NUM_V);
-        
+        prev = currVertex;
         i++;
     }
+    poly.addEdge(prev, head, i, NUM_V);
 
-    for(auto e : poly.LAE.entities) {
-        e->Info();
+    Vertex* itV = poly.LAV.head;
+
+    i = 0;
+
+    cout << endl;
+
+    while (i <= NUM_V)
+    {
+        itV->Info();
+        itV = itV->adjVertexNext;
+        i++;
     }
+    
+    Edge* itE = poly.LAE.head;
 
-    for(auto v : poly.LAV.entities) {
-        v->Info();
+    i = 0;
+
+    while (i <= NUM_V)
+    {
+        itE->Info();
+        itE = itE->adjEdgeNext;
+        i++;
     }
-
-    Vertex* vt = poly.LAV.entities.front();
-
-    for(int l = 0; l <= NUM_V; l++) {
-        vt->Info();
-        vt = vt->adjVertexNext;
-    }
-
-    Edge* et = poly.LAE.entities.front();
-
-    for(int l = 0; l <= NUM_V; l++) {
-        et->Info();
-        //et = et->adjEdgeNext;
-    }
+    
 
     return 0;
 }
