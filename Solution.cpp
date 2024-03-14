@@ -26,18 +26,66 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    Vertex v1(10, 12);
-    Vertex v2(3, 4);
-    Vertex v3(12,19);
+    int NUM_V = 5;
+    int i = 0;
+
+    vector<Vertex*> IpVertices; // Input
+
+    Vertex* addedVertex;
+    addedVertex = new Vertex(1, 5);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(4, 1);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(8, 3);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(7, 7);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(3, 9);
+    IpVertices.push_back(addedVertex);
     
     Polygon poly;
-    poly.addEdge(v1, v2);
-    poly.addEdge(v2, v3);
-    poly.addEdge(v3, v1);
+    Vertex* prev = IpVertices[i];
+    poly.addVertex(prev, i, NUM_V);
+
+    i++;
+
+    while(i < NUM_V) {
+
+        Vertex* currVertex = IpVertices[i];
+        poly.addVertex(currVertex, i, NUM_V);
+
+        // Vertices...
+        for(auto v : poly.LAV.entities) {
+            v->Info();
+        }
+
+        cout << endl;
+
+        poly.addEdge(prev, currVertex, i - 1, NUM_V);
+        
+        i++;
+    }
 
     for(auto e : poly.LAE.entities) {
-        e.Info();
-        cout << endl;
+        e->Info();
+    }
+
+    for(auto v : poly.LAV.entities) {
+        v->Info();
+    }
+
+    Vertex* vt = poly.LAV.entities.front();
+
+    for(int l = 0; l <= NUM_V; l++) {
+        vt->Info();
+        vt = vt->adjVertexNext;
+    }
+
+    Edge* et = poly.LAE.entities.front();
+
+    for(int l = 0; l <= NUM_V; l++) {
+        et->Info();
+        //et = et->adjEdgeNext;
     }
 
     return 0;

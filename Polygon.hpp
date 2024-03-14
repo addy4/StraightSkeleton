@@ -14,38 +14,27 @@ class CircularConnectedList
 {
 public:
     list<T> entities;
-
-    void insertEntity(const T& item)
-    {
-        entities.push_back(item);
-    }
-
-    void removeEntity(const T& item)
-    {
-        entities.remove(item);
-    }
-
-    void removeByIterator(typename std::list<T>::iterator it) 
-    {
-        entities.erase(it);
-    }
 };
 
-// Each Iteration Will See A Different Polygon
+// Each iteration will see a different polygon as wavefront
 class Polygon
 {
 public:
     
-    vector<Edge> edges;
-    vector<Vertex> vertices;
-    
-    CircularConnectedList<Edge> LAE; // List of active edges
-    CircularConnectedList<Vertex> LAV; // List of active vertices
+    CircularConnectedList<Edge*> LAE; // List of active edges: LAE
+    CircularConnectedList<Vertex*> LAV; // List of active vertices: LAV
 
-    Polygon(/* args */);
+    Vertex headVertex; // Head vertex points to tail vertex
+    Edge headEdge; // Head edge points to tail edge
+
+    Vertex tailVertex;
+    Edge tailEdge;
+
+    Polygon();
     ~Polygon();
 
-    void addEdge(Vertex v1, Vertex v2);
+    void addVertex(Vertex* v, int i, int total);
+    void addEdge(Vertex* v1, Vertex* v2, int i, int total);
 };
 
 #endif //POLY_HPP

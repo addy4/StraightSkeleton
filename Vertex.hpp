@@ -15,13 +15,15 @@ public:
     double y_coord;
     double angle; // interior, part of polygon
     Line angleBisector;
-    Vertex* adjVertexA;
-    Vertex* adjVertexB;
+    Vertex* adjVertexPrev;
+    Vertex* adjVertexNext;
     vector<Edge*> incidentEdges;
 
     Vertex();
     Vertex(double xcord, double cord);
     ~Vertex();
+
+    void Info();
 };
 
 #endif // VERTEX_HPP

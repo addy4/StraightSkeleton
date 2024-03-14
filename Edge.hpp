@@ -7,14 +7,14 @@ class Edge
 {
 public:
     Line Eqn;
-    Vertex x_A;
-    Vertex x_B;
-    Edge* adjEdgeA;
-    Edge* adjEdgeB;
+    Vertex* x_A;
+    Vertex* x_B;
+    Edge* adjEdgePrev;
+    Edge* adjEdgeNext;
     Vertex collapsePoint;
 
     Edge();
-    Edge(Vertex A, Vertex B);
+    Edge(Vertex* A, Vertex* B);
     ~Edge();
 
     void Info();
