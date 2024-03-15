@@ -63,11 +63,25 @@ void Vertex::setAngleBisector()
 {
     this->computeAngleType();
 
+    Line bisector;
+
     if(this->angleType == 'E') {
+        double desiredSlope = (this->IncidentEdgeA.jcoeff + this->IncidentEdgeB.jcoeff)/(this->IncidentEdgeA.icoeff + this->IncidentEdgeB.icoeff);
+        double actualSlope;
+        actualSlope = -(this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff)/(this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff);
+        if(actualSlope == desiredSlope) {
+            bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff;
+            bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff;
+            bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
+        }
+        else {
+            bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff + this->IncidentEdgeB.normalizedXcoeff;
+            bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff + this->IncidentEdgeB.normalizedYcoeff;
+            bisector.constant = this->IncidentEdgeA.normalizedConstant + this->IncidentEdgeB.normalizedConstant; 
+        }
+        this->angleBisector = bisector;
         return;
     }
-
-    Line bisector;
 
     if(this->IncidentEdgeA.constant * this->IncidentEdgeB.constant < 0) {
         IncidentEdgeB.reverseSign();

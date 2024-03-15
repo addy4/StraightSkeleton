@@ -15,8 +15,8 @@ public:
     double y_coord;
     double angle; // interior, part of polygon
     char angleType; // 'A', 'O'
-    Line IncidentEdgeA;
-    Line IncidentEdgeB;
+    Line IncidentEdgeA; // current vertex to adjVertexNext
+    Line IncidentEdgeB; // current vertex to adjVertexPrev
     Line angleBisector;
     Vertex* adjVertexPrev;
     Vertex* adjVertexNext;

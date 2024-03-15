@@ -26,6 +26,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    /*
     int NUM_V = 5;
     int i = 0;
 
@@ -34,6 +35,24 @@ int main(int argc, char const *argv[])
     Vertex* addedVertex;
     addedVertex = new Vertex(1, 5);
     IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(4, 1);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(8, 3);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(7, 7);
+    IpVertices.push_back(addedVertex);
+    addedVertex = new Vertex(3, 9);
+    IpVertices.push_back(addedVertex);
+    */
+
+    int NUM_V = 4;
+    int i = 0;
+
+    vector<Vertex*> IpVertices; // Input
+
+    Vertex* addedVertex;
+    //addedVertex = new Vertex(1, 5);
+    //IpVertices.push_back(addedVertex);
     addedVertex = new Vertex(4, 1);
     IpVertices.push_back(addedVertex);
     addedVertex = new Vertex(8, 3);

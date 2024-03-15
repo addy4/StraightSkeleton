@@ -14,6 +14,7 @@ Line::Line()
     this->normalizedConstant = 0;
 }
 
+// Line from A to B
 Line::Line(double xA, double yA, double xB, double yB)
 {
     // Cartesian
