@@ -5,14 +5,20 @@
 using namespace std;
 
 Line::Line()
-{    
+{
+    this->x_coeff = 0;
+    this->y_coeff = 0;
+    this->constant = 0;
+    this->normalizedXcoeff = 0;
+    this->normalizedYcoeff = 0;
+    this->normalizedConstant = 0;
 }
 
 Line::Line(double xA, double yA, double xB, double yB)
 {
     // Cartesian
     this->x_coeff = yB - yA; //  ax
-    this->y_coeff = xB - xA; //  by
+    this->y_coeff = xA - xB; //  by
     this->constant = -(this->x_coeff * xA + this->y_coeff * yA); //  c
 
     // Vectorial
@@ -44,4 +50,12 @@ void Line::Show()
     cout << "A: " << x_coeff << endl;
     cout << "B: " << y_coeff << endl;
     cout << "C: " << constant << endl;
+}
+
+void Line::ShowNormalized()
+{
+    cout << "Denom: " << sqrt(this->x_coeff * this->x_coeff + this->y_coeff * this->y_coeff) << endl;
+    cout << "AN: " << normalizedXcoeff << endl;
+    cout << "BN: " << normalizedYcoeff << endl;
+    cout << "CN: " << normalizedConstant << endl; 
 }

@@ -40,9 +40,11 @@ void Vertex::computeAngleType()
 
     cout << "Edge A" << endl;
     this->IncidentEdgeA.Show();
+    this->IncidentEdgeA.ShowNormalized();
 
     cout << "Edge B" << endl;
     this->IncidentEdgeB.Show();
+    this->IncidentEdgeB.ShowNormalized();
 
     int costheta = Utils::dotProductSign(this->IncidentEdgeA, this->IncidentEdgeB);
     if(costheta > 0) {
@@ -54,6 +56,7 @@ void Vertex::computeAngleType()
     else {
         cout << "90 degrees!!!!!!!" << endl;
     }
+    cout << "Angle = " << this->angleType << endl;
 }
 
 void Vertex::setAngleBisector()
@@ -77,9 +80,22 @@ void Vertex::setAngleBisector()
             bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
         }
         else if(this->angleType == 'O') {
+            this->IncidentEdgeA.ShowNormalized();
             bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff + this->IncidentEdgeB.normalizedXcoeff;
             bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff + this->IncidentEdgeB.normalizedYcoeff;
             bisector.constant = this->IncidentEdgeA.normalizedConstant + this->IncidentEdgeB.normalizedConstant;
+        }
+    }
+    else {
+        if(this->angleType = 'A') {
+            bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff + this->IncidentEdgeB.normalizedXcoeff;
+            bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff + this->IncidentEdgeB.normalizedYcoeff;
+            bisector.constant = this->IncidentEdgeA.normalizedConstant + this->IncidentEdgeB.normalizedConstant;
+        }
+        else if(this->angleType = 'O') {
+            bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff;
+            bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff;
+            bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
         }
     }
 

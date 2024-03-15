@@ -24,6 +24,7 @@ public:
 
     void reverseSign();
     void Show();
+    void ShowNormalized();
 };
 
 #endif //LINE_HPPP
