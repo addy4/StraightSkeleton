@@ -29,7 +29,7 @@ public:
     Polygon();
     ~Polygon();
 
-    void addVertex(Vertex* v, int i, int total);
+    void addVertex(Vertex* v);
     void addEdge(Vertex* v1, Vertex* v2, int i, int total);
 };
 

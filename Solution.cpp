@@ -15,97 +15,103 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
+#include <utility>
 
 #include "Line.hpp"
 #include "Vertex.hpp"
 #include "Edge.hpp"
 #include "Segment.hpp"
 #include "Polygon.hpp"
+#include "Utils.hpp"
 
 using namespace std;
 
+void showCurrentWavefront(Polygon poly);
+void generateStraightSkeleton(Polygon poly);
+
 int main(int argc, char const *argv[])
 {
-    /*
-    int NUM_V = 5;
-    int i = 0;
-
-    vector<Vertex*> IpVertices; // Input
-
-    Vertex* addedVertex;
-    addedVertex = new Vertex(1, 5);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(4, 1);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(8, 3);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(7, 7);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(3, 9);
-    IpVertices.push_back(addedVertex);
-    */
-
-    int NUM_V = 4;
-    int i = 0;
-
-    vector<Vertex*> IpVertices; // Input
-
-    Vertex* addedVertex;
-    //addedVertex = new Vertex(1, 5);
-    //IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(4, 1);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(8, 3);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(7, 7);
-    IpVertices.push_back(addedVertex);
-    addedVertex = new Vertex(3, 9);
-    IpVertices.push_back(addedVertex);
+    // Input vertices
+    vector<pair<int,int>> network = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
     
+    // Creating polygon
+    int vertexNumber = 0;
     Polygon poly;
-    Vertex* head = IpVertices[i];
-    Vertex* prev = IpVertices[i];
-    poly.addVertex(prev, i, NUM_V);
-    prev->Info();
-    i++;
 
-    while(i < NUM_V) {
+    Vertex* prev;
+    Vertex* head = new Vertex(network[vertexNumber].first, network[vertexNumber].second);
+    prev = head;
+    
+    poly.addVertex(head);
+    vertexNumber++;
 
-        Vertex* currVertex = IpVertices[i];
-        currVertex->Info();
-        poly.addVertex(currVertex, i, NUM_V);
-        poly.addEdge(prev, currVertex, i - 1, NUM_V);
+    while (vertexNumber < network.size())
+    {
+        Vertex* currVertex = new Vertex(network[vertexNumber].first, network[vertexNumber].second); 
+        poly.addVertex(currVertex);
         prev = currVertex;
-        i++;
+        vertexNumber++;  
     }
-    poly.addEdge(prev, head, i, NUM_V);
 
-    Vertex* itV = poly.LAV.head;
-
-    i = 0;
-
-    cout << endl;
-
-    while (i <= NUM_V)
-    {
-        itV->Info();
-        itV->setAngleBisector();
-        itV->angleBisector.Show();
-        itV = itV->adjVertexNext;
-        i++;
-    }
+    showCurrentWavefront(poly);
+    //generateStraightSkeleton(poly);
     
-    Edge* itE = poly.LAE.head;
-
-    i = 0;
-
-    while (i <= NUM_V)
-    {
-        itE->Info();
-        itE = itE->adjEdgeNext;
-        i++;
-    }
-    
+    pair<double,double> pdd = Utils::IntersectionPoint(prev->IncidentEdgeA, prev->IncidentEdgeB);
+    cout << pdd.first << endl;
+    cout << pdd.second << endl;
 
     return 0;
+}
+
+void showCurrentWavefront(Polygon poly)
+{
+    /* debugging polygon for straight skeleton */
+
+    Vertex* vertexIterator = poly.LAV.head;
+    int vertexNumber = 0;
+    while (vertexNumber < poly.LAV.size + 1)
+    {
+        vertexIterator->Info();
+        vertexIterator->setAngleBisector();
+        vertexIterator->angleBisector.Show();
+        vertexIterator = vertexIterator->adjVertexNext;
+        vertexNumber++;
+    }
+
+    /* debugging polygon for straight skeleton */
+}
+
+void generateStraightSkeleton(Polygon poly)
+{
+    // Stores segments for straight skeleton
+    vector<Segment> SkeletonForConvexPolygon;
+
+    // WHILE LAV.size > 3:
+    // For all vertices of LAV:
+    //      get angle bisector of current vertex
+    //      get angle bisector of next vertex
+    //      get intersection point
+    //      get distance of point from incidentEdgeA (joins current to next)
+    //      if distance is MIN:
+    //          vMIN <- current vertex
+
+    // coordinates[], i = 0
+    // coordinates[i] <- vMIN.x, vMIN.y
+
+    // add segment(currentVertex, vMIN) to Skeleton
+    // add segment(nextVertex, vMIN) to Skeleton
+
+    // remove current vertex from LAV
+    // remove next vertex from LAV
+    // add vMIN to LAV
+
+    /* Modify LAV */
+    // For all (v) vertices of LAV (except vMIN):
+    //      v->Modify(l) (where, l = dist. from edge) -> Modify will just set x, y coords and vector's i, j and put 0 for all other vals
+
+    // For all (v) vertices of LAV (except vMIN):
+    //      if v equals vMIN             
+    
+    // For all (v) vertices of LAV:
+    //      v->setAngleBisector();
 }

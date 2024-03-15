@@ -13,7 +13,7 @@ Polygon::~Polygon()
 {
 }
 
-void Polygon::addVertex(Vertex* v, int i, int total)
+void Polygon::addVertex(Vertex* v)
 {
     if(this->LAV.size == 0) {
         this->LAV.head = v;
@@ -28,11 +28,6 @@ void Polygon::addVertex(Vertex* v, int i, int total)
         this->LAV.head->adjVertexPrev = v;
         this->LAV.tail = v;
     }
-
-    //cout << "..." << endl;
-    //this->LAV.head->Info();
-    //this->LAV.tail->Info();
-    //cout << "..." << endl;
 
     this->LAV.size++;
 }
