@@ -11,10 +11,12 @@ using namespace std;
 
 int Utils::dotProductSign(Line incident1, Line incident2)
 {
+    return 0;
     if(abs((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff)) < 0.05) {
         return 0;
     }
     if((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) > 0) {
+        //cout << "SUM: " << (incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) << endl;
         return +1;
     }
     else if((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) < 0) {
@@ -66,6 +68,11 @@ double Utils::angleBwLines(Line R, Line S)
 {
     double mSlopeR = -1 * (R.x_coeff/R.y_coeff);
     double mSlopeS = -1 * (S.x_coeff/S.y_coeff);
+
+    if(mSlopeR * mSlopeS == -1) {
+        return 90;
+    }
+
     double tanTheta = (mSlopeS - mSlopeR)/(1 + mSlopeS * mSlopeR);
     return atan(tanTheta)*180/3.1415;
 }
