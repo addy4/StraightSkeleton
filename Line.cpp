@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Default Line
 Line::Line()
 {
     this->x_coeff = 0;
@@ -35,9 +36,6 @@ Line::Line(double xA, double yA, double xB, double yB)
     this->normalizedConstant = this->constant/denom;  
 }
 
-Line::~Line()
-{
-}
 
 void Line::reverseSign()
 {
@@ -48,22 +46,23 @@ void Line::reverseSign()
 
 void Line::setUnitVector()
 {
-    double denominator = (this->icoeff * this->icoeff + this->jcoeff * this->jcoeff);
+    double denominator = sqrt(this->icoeff * this->icoeff + this->jcoeff * this->jcoeff);
     this->unitVectorIcoeff = this->icoeff/denominator;
     this->unitVectorJcoeff = this->jcoeff/denominator;
 }
 
 void Line::Show()
 {
-    cout << "A: " << x_coeff << endl;
-    cout << "B: " << y_coeff << endl;
-    cout << "C: " << constant << endl;
+    cout << "Equation of line is... ";
+    cout << "(" << this->x_coeff << "*x) + " << "(" << this->y_coeff << "*y) + " << "(" << this->constant << ")" << endl;  
 }
 
 void Line::ShowNormalized()
 {
-    cout << "Denom: " << sqrt(this->x_coeff * this->x_coeff + this->y_coeff * this->y_coeff) << endl;
-    cout << "AN: " << normalizedXcoeff << endl;
-    cout << "BN: " << normalizedYcoeff << endl;
-    cout << "CN: " << normalizedConstant << endl; 
+    cout << "Normalized equation of line is... ";
+    cout << "(" << this->normalizedXcoeff << "*x) + " << "(" << this->normalizedYcoeff << "*y) + " << "(" << this->normalizedConstant << ")" << endl;
+}
+
+Line::~Line()
+{
 }

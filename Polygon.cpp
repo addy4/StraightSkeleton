@@ -32,10 +32,11 @@ void Polygon::addVertex(Vertex* v)
     this->LAV.size++;
 }
 
+// This method is redundant logic hence not called
 void Polygon::addEdge(Vertex* v1, Vertex* v2, int i, int total)
 {
     Edge* e = new Edge(v1, v2);
-    //e->Info();
+
     v1->incidentEdges.push_back(e);
     v2->incidentEdges.push_back(e);
 

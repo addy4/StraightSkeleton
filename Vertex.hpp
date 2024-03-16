@@ -29,6 +29,7 @@ public:
     void Info();
     void computeAngleType();
     void setAngleBisector();
+    void setIncidentEdges();
     void modifyCoordinates(double d);
 };
 

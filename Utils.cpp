@@ -10,6 +10,9 @@ using namespace std;
 
 int Utils::dotProductSign(Line incident1, Line incident2)
 {
+    if(abs((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff)) < 0.05) {
+        return 0;
+    }
     if((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) > 0) {
         return +1;
     }
@@ -27,8 +30,8 @@ pair<double,double> Utils::IntersectionPoint(Line liA, Line liB)
     // Line A: a1x + b1y = c1
     // Line B: a2x + b2y = c2
 
-    liA.Show();
-    liB.Show();
+    //liA.Show();
+    //liB.Show();
 
     double determinant = liA.x_coeff * liB.y_coeff - liB.x_coeff * liA.y_coeff;
 

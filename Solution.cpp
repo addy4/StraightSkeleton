@@ -55,15 +55,37 @@ int main(int argc, char const *argv[])
     }
 
     showCurrentWavefront(poly);
-    //generateStraightSkeleton(poly);
+    
+    /*
+    generateStraightSkeleton(poly);
+    */
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
     cout << endl;
     cout << endl;
     
-    moveVertices(1.1, &poly);
+    moveVertices(0.7, &poly);
 
-    /*
+    
+    showCurrentWavefront(poly);
+
+    moveVertices(0.95, &poly);
+
+    
+    showCurrentWavefront(poly);
+
+    moveVertices(0.2, &poly);
+
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    
     showCurrentWavefront(poly);
     
+    /*
     pair<double,double> pdd = Utils::IntersectionPoint(prev->IncidentEdgeA, prev->IncidentEdgeB);
     cout << pdd.first << endl;
     cout << pdd.second << endl;
@@ -87,6 +109,7 @@ void moveVertices(double d, Polygon* polyPtr)
     int vertexNumber = 0;
     while (vertexNumber < polyPtr->LAV.size)
     {
+        cout << vertexIterator->x_coord << " | " << vertexIterator->y_coord << " being modified" << endl;
         vertexIterator->modifyCoordinates(d);
         vertexIterator = vertexIterator->adjVertexNext;
         vertexNumber++;
@@ -97,6 +120,7 @@ void moveVertices(double d, Polygon* polyPtr)
     while (vertexNumber < polyPtr->LAV.size)
     {
         cout << vertexIterator->x_coord << ",,,,, " << vertexIterator->y_coord << endl;
+        //vertexIterator->setIncidentEdges();
         vertexIterator = vertexIterator->adjVertexNext;
         vertexNumber++;
     }
@@ -109,11 +133,12 @@ void showCurrentWavefront(Polygon poly)
 
     Vertex* vertexIterator = poly.LAV.head;
     int vertexNumber = 0;
-    while (vertexNumber < poly.LAV.size + 1)
+    while (vertexNumber < poly.LAV.size)
     {
-        vertexIterator->Info();
+        vertexIterator->setIncidentEdges();
         vertexIterator->setAngleBisector();
-        vertexIterator->angleBisector.Show();
+        vertexIterator->Info();
+        //vertexIterator->angleBisector.Show();
         vertexIterator = vertexIterator->adjVertexNext;
         vertexNumber++;
     }

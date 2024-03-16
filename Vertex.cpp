@@ -19,46 +19,72 @@ Vertex::Vertex(double x_coord, double y_coord)
     this->y_coord = y_coord;
 }
 
-Vertex::~Vertex()
-{
-}
-
 void Vertex::Info()
 {
-    cout << "   XY: " << this->x_coord << ", " << this->y_coord << endl;
-    if(adjVertexPrev) {
-        cout << "   Previous XY: " << adjVertexPrev->x_coord << ", " << adjVertexPrev->y_coord << endl;
-    }
-    if(adjVertexNext) {
-        cout << "   Next XY: " << adjVertexNext->x_coord << ", " << adjVertexNext->y_coord << endl;
-    }
+    cout << "########################################" << endl;
+    
+    // Current vertex
+    cout << "At vertex... (" << this->x_coord << ", " << this->y_coord << ")" << endl;
+    cout << endl;
+
+    // Adjacent vertices
+    cout << "Next vertex .... (" << this->adjVertexNext->x_coord << ", " << this->adjVertexNext->y_coord << ")" << endl;
+    cout << "Previous vertex .... (" << this->adjVertexPrev->x_coord << ", " << this->adjVertexPrev->y_coord << ")" << endl;
+    cout << endl;
+    
+    // Incident edges
+    cout << "Incident edge A point to next -> " << endl;
+    this->IncidentEdgeA.Show();
+    cout << "Incident edge B point to prev -> " << endl;
+    this->IncidentEdgeB.Show();
+    cout << endl;
+
+    // Angle bisector
+    cout << "Angle bisector -> " << endl;
+    this->angleBisector.Show();
+    cout << endl;
+
+    cout << "########################################" << endl;
+}
+
+void Vertex::setIncidentEdges()
+{
+    cout << ".. setting incident edges .." << endl;
+    // Current vertex
+    cout << "At vertex... (" << this->x_coord << ", " << this->y_coord << ")" << endl;
+    cout << endl;
+
+    // Adjacent vertices
+    cout << "Next vertex .... (" << this->adjVertexNext->x_coord << ", " << this->adjVertexNext->y_coord << ")" << endl;
+    cout << "Previous vertex .... (" << this->adjVertexPrev->x_coord << ", " << this->adjVertexPrev->y_coord << ")" << endl;
+    cout << endl;
+
+    this->IncidentEdgeA = Line(this->x_coord, this->y_coord, adjVertexNext->x_coord, adjVertexNext->y_coord);
+    this->IncidentEdgeB = Line(this->x_coord, this->y_coord, adjVertexPrev->x_coord, adjVertexPrev->y_coord);
 }
 
 void Vertex::computeAngleType()
 {
+    // Initially angle set to E
     this->angleType = 'E';
-    this->IncidentEdgeA = Line(this->x_coord, this->y_coord, adjVertexNext->x_coord, adjVertexNext->y_coord);
-    this->IncidentEdgeB = Line(this->x_coord, this->y_coord, adjVertexPrev->x_coord, adjVertexPrev->y_coord);
 
-    cout << "Edge A" << endl;
-    this->IncidentEdgeA.Show();
-    this->IncidentEdgeA.ShowNormalized();
+    // Getting edges connected to next and previous vertex
+    // this->IncidentEdgeA = Line(this->x_coord, this->y_coord, adjVertexNext->x_coord, adjVertexNext->y_coord);
+    // this->IncidentEdgeB = Line(this->x_coord, this->y_coord, adjVertexPrev->x_coord, adjVertexPrev->y_coord);
 
-    cout << "Edge B" << endl;
-    this->IncidentEdgeB.Show();
-    this->IncidentEdgeB.ShowNormalized();
-
+    // For determining whether angle at vertex is obtuse or acute
     int costheta = Utils::dotProductSign(this->IncidentEdgeA, this->IncidentEdgeB);
+
+    cout << "costheta = " << costheta << endl;
+    
     if(costheta > 0) {
         this->angleType = 'A';
     }
     else if(costheta < 0) {
         this->angleType = 'O';
     }
-    else {
-        cout << "90 degrees!!!!!!!" << endl;
-    }
-    cout << "Angle = " << this->angleType << endl;
+
+    // Otherwise, 90 degrees. Angle type is 'E'
 }
 
 void Vertex::setAngleBisector()
@@ -68,10 +94,20 @@ void Vertex::setAngleBisector()
     Line bisector;
 
     if(this->angleType == 'E') {
-        double desiredSlope = (this->IncidentEdgeA.jcoeff + this->IncidentEdgeB.jcoeff)/(this->IncidentEdgeA.icoeff + this->IncidentEdgeB.icoeff);
+        //double desiredSlope = (this->IncidentEdgeA.jcoeff + this->IncidentEdgeB.jcoeff)/(this->IncidentEdgeA.icoeff + this->IncidentEdgeB.icoeff);
+        this->IncidentEdgeA.setUnitVector();
+        this->IncidentEdgeB.setUnitVector();
+        
+        double desiredSlope = (this->IncidentEdgeA.unitVectorJcoeff + this->IncidentEdgeB.unitVectorJcoeff)/(this->IncidentEdgeA.unitVectorIcoeff + this->IncidentEdgeB.unitVectorIcoeff);
+        
+        cout << this->IncidentEdgeA.unitVectorIcoeff << ", " << this->IncidentEdgeA.unitVectorJcoeff << endl;
+        cout << this->IncidentEdgeB.unitVectorIcoeff << ", " << this->IncidentEdgeB.unitVectorJcoeff << endl;
+        
         double actualSlope;
         actualSlope = -(this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff)/(this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff);
-        if(actualSlope == desiredSlope) {
+        cout << "desired slope --------- " << desiredSlope << endl;
+        cout << "actual slope ---------- " << actualSlope << endl;
+        if(actualSlope * desiredSlope > 0) {
             bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff;
             bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff;
             bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
@@ -96,7 +132,7 @@ void Vertex::setAngleBisector()
             bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
         }
         else if(this->angleType == 'O') {
-            this->IncidentEdgeA.ShowNormalized();
+            //this->IncidentEdgeA.ShowNormalized();
             bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff + this->IncidentEdgeB.normalizedXcoeff;
             bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff + this->IncidentEdgeB.normalizedYcoeff;
             bisector.constant = this->IncidentEdgeA.normalizedConstant + this->IncidentEdgeB.normalizedConstant;
@@ -116,7 +152,6 @@ void Vertex::setAngleBisector()
     }
 
     this->angleBisector = bisector;
-
     return;
 }
 
@@ -170,4 +205,8 @@ void Vertex::modifyCoordinates(double d)
     
     this->x_coord = this->x_coord + xdirection * lDistance * cos(bisectorAngleRadians);
     this->y_coord = this->y_coord + ydirection * lDistance * sin(bisectorAngleRadians);
+}
+
+Vertex::~Vertex()
+{
 }
