@@ -17,6 +17,8 @@
 #include <ctime>
 #include <utility>
 
+#define DEBUG 1
+
 #include "Line.hpp"
 #include "Vertex.hpp"
 #include "Edge.hpp"
@@ -26,6 +28,8 @@
 
 using namespace std;
 
+typedef vector<pair<double,double>> waveFront;
+
 void showCurrentWavefront(Polygon poly);
 void generateStraightSkeleton(Polygon poly);
 void moveVertices(double d, Polygon* polyPtr);
@@ -33,7 +37,10 @@ void moveVertices(double d, Polygon* polyPtr);
 int main(int argc, char const *argv[])
 {
     // Input vertices
-    vector<pair<int,int>> network = {make_pair(1,5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
+    vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
+    // vector<pair<int,int>> network = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
+    // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7)};
+    waveFront wave;
     
     // Creating polygon
     int vertexNumber = 0;
@@ -44,83 +51,60 @@ int main(int argc, char const *argv[])
     prev = head;
     
     poly.addVertex(head);
+    wave.push_back(network[vertexNumber]);
     vertexNumber++;
 
     while (vertexNumber < network.size())
     {
+        wave.push_back(network[vertexNumber]);
         Vertex* currVertex = new Vertex(network[vertexNumber].first, network[vertexNumber].second); 
         poly.addVertex(currVertex);
         prev = currVertex;
         vertexNumber++;  
     }
 
-    showCurrentWavefront(poly);
-    
-    /*
-    generateStraightSkeleton(poly);
-    */
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    
-    moveVertices(0.7, &poly);
-
-    
+    // Simulation
+    //Utils::printWaveFront(wave);
+    Utils::printPolygon(wave);
     showCurrentWavefront(poly);
 
-    moveVertices(0.95, &poly);
-
-    
+    moveVertices(0.4, &poly);
     showCurrentWavefront(poly);
 
-    moveVertices(0.2, &poly);
+    moveVertices(0.4, &poly);
+    showCurrentWavefront(poly);
 
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    
+    moveVertices(0.4, &poly);
     showCurrentWavefront(poly);
     
-    /*
-    pair<double,double> pdd = Utils::IntersectionPoint(prev->IncidentEdgeA, prev->IncidentEdgeB);
-    cout << pdd.first << endl;
-    cout << pdd.second << endl;
-
-    double angle = Utils::angleBwLines(prev->IncidentEdgeA, prev->IncidentEdgeB);
-    cout << "Angle = " << angle << endl; 
-
-    prev = prev->adjVertexNext;
-    prev = prev->adjVertexNext;
-    angle = Utils::angleBwLines(prev->IncidentEdgeA, prev->IncidentEdgeB);
-    cout << "Angle = " << angle << endl;
-    angle = Utils::angleBwLines(prev->IncidentEdgeA, prev->angleBisector);
-    cout << "Angle = " << angle << endl;
-    */
     return 0;
 }
 
 void moveVertices(double d, Polygon* polyPtr)
 {
+    waveFront wave;
+    pair<double,double> pointMovement;
+
     Vertex* vertexIterator = polyPtr->LAV.head;
     int vertexNumber = 0;
     while (vertexNumber < polyPtr->LAV.size)
     {
-        cout << vertexIterator->x_coord << " | " << vertexIterator->y_coord << " being modified" << endl;
         vertexIterator->modifyCoordinates(d);
+        pointMovement = make_pair(vertexIterator->x_coord, vertexIterator->y_coord);
+        wave.push_back(pointMovement);
         vertexIterator = vertexIterator->adjVertexNext;
         vertexNumber++;
     }
 
+    //Utils::printWaveFront(wave);
+    Utils::printPolygon(wave);
+
     vertexIterator = polyPtr->LAV.head;
     vertexNumber = 0;
+    pair<double,double> FinalPoints;
     while (vertexNumber < polyPtr->LAV.size)
     {
-        cout << vertexIterator->x_coord << ",,,,, " << vertexIterator->y_coord << endl;
-        //vertexIterator->setIncidentEdges();
+        vertexIterator->setIncidentEdges();
         vertexIterator = vertexIterator->adjVertexNext;
         vertexNumber++;
     }
@@ -138,7 +122,6 @@ void showCurrentWavefront(Polygon poly)
         vertexIterator->setIncidentEdges();
         vertexIterator->setAngleBisector();
         vertexIterator->Info();
-        //vertexIterator->angleBisector.Show();
         vertexIterator = vertexIterator->adjVertexNext;
         vertexNumber++;
     }

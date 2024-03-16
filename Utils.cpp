@@ -5,6 +5,7 @@
 #include <cmath>
 #include <climits>
 #include <cstdint>
+#include <iostream>
 
 using namespace std;
 
@@ -67,4 +68,22 @@ double Utils::angleBwLines(Line R, Line S)
     double mSlopeS = -1 * (S.x_coeff/S.y_coeff);
     double tanTheta = (mSlopeS - mSlopeR)/(1 + mSlopeS * mSlopeR);
     return atan(tanTheta)*180/3.1415;
+}
+
+// Print wavefront
+void Utils::printPolygon(waveFront wave)
+{
+    for(int l = 0; l < wave.size() - 1; l++)
+    {
+        cout << wave[l].first << ", " << wave[l].second << ", " << wave[l+1].first << ", " << wave[l+1].second << endl;
+    }
+    cout << wave[wave.size() - 1].first << ", " << wave[wave.size() - 1].second << ", " << wave[0].first << ", " << wave[0].second << endl;
+}
+
+void Utils::printWaveFront(waveFront wave)
+{
+    for(auto wavePoint : wave)
+    {
+        cout << wavePoint.first << ", " << wavePoint.second << endl;
+    }
 }

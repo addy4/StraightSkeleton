@@ -7,6 +7,8 @@
 
 using namespace std;
 
+typedef vector<pair<double,double>> waveFront;
+
 class Utils
 {
 public:
@@ -18,6 +20,8 @@ public:
     static double distanceFromLine(Vertex P, Line L);
     static pair<double,double> vectorSum(Line A, Line B);
     static double angleBwLines(Line A, Line B);
+    static void printPolygon(waveFront wave);
+    static void printWaveFront(waveFront wave);
 };
 
 #endif //UTILS_HPP

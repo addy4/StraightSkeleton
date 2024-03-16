@@ -5,6 +5,8 @@
 #include <math.h>
 #include <cmath>
 
+#define DEBUG 0
+
 using namespace std;
 
 Vertex::Vertex()
