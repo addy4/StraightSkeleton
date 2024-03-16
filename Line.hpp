@@ -18,11 +18,15 @@ public:
     double icoeff;
     double jcoeff;
 
+    double unitVectorIcoeff; // ai
+    double unitVectorJcoeff; // bj
+
     Line();
     Line(double xA, double xB, double yA, double yB); // X1 Y1 X2 Y2
     ~Line();
 
     void reverseSign();
+    void setUnitVector();
     void Show();
     void ShowNormalized();
 };

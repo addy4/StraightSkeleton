@@ -29,6 +29,7 @@ public:
     void Info();
     void computeAngleType();
     void setAngleBisector();
+    void modifyCoordinates(double d);
 };
 
 #endif // VERTEX_HPP

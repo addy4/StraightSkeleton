@@ -2,6 +2,8 @@
 #include "Line.hpp"
 #include "Utils.hpp"
 #include <iostream>
+#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -116,4 +118,56 @@ void Vertex::setAngleBisector()
     this->angleBisector = bisector;
 
     return;
+}
+
+// Modify vertex XY coordinates based on the distance moved by edge
+void Vertex::modifyCoordinates(double d)
+{
+    // Get angle between angle bisector and incident edge A (vertex -> nextVertex)
+    double angleDegrees = abs(Utils::angleBwLines(this->angleBisector, this->IncidentEdgeA));
+
+    if(angleDegrees > 90) {
+        angleDegrees = 180.0 - angleDegrees;
+    }
+
+    double angleRadians = angleDegrees * 3.1415 / 180.0;
+
+    // Distance to move along angle bisector
+    double lDistance = d / sin(angleRadians);
+
+    // Angle b/w angle bisector and X-axis (take acute angle only)
+    double bisectorAngleDegrees = abs(Utils::angleBwLines(this->angleBisector, Line(0, 0, 1, 0)));
+
+    if(bisectorAngleDegrees > 90) {
+        bisectorAngleDegrees = 180.0 - bisectorAngleDegrees;
+    }
+
+    double bisectorAngleRadians = bisectorAngleDegrees * 3.1415 / 180.0; 
+
+    // Get vertex movement directions
+    pair<double, double> vectorResultant = Utils::vectorSum(this->IncidentEdgeB, this->IncidentEdgeA);
+
+    double xdirection;
+    double ydirection;
+    
+    if(abs(vectorResultant.first) == 0) 
+    {
+        xdirection = 0;
+    }
+    else
+    {
+        xdirection = vectorResultant.first/abs(vectorResultant.first);
+    }
+
+    if(abs(vectorResultant.second) == 0)
+    {
+        ydirection = 0;
+    }
+    else
+    {
+        ydirection = vectorResultant.second/abs(vectorResultant.second);
+    }
+    
+    this->x_coord = this->x_coord + xdirection * lDistance * cos(bisectorAngleRadians);
+    this->y_coord = this->y_coord + ydirection * lDistance * sin(bisectorAngleRadians);
 }

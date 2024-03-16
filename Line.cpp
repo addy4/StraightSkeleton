@@ -46,6 +46,13 @@ void Line::reverseSign()
     this->constant = -1 * this->constant;
 }
 
+void Line::setUnitVector()
+{
+    double denominator = (this->icoeff * this->icoeff + this->jcoeff * this->jcoeff);
+    this->unitVectorIcoeff = this->icoeff/denominator;
+    this->unitVectorJcoeff = this->jcoeff/denominator;
+}
+
 void Line::Show()
 {
     cout << "A: " << x_coeff << endl;

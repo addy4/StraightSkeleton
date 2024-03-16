@@ -45,3 +45,28 @@ pair<double,double> Utils::IntersectionPoint(Line liA, Line liB)
     }
     return make_pair(INT16_MIN, INT16_MIN);
 }
+
+double Utils::distanceFromLine(Vertex P, Line L)
+{
+    double denominator = sqrt(L.x_coeff * L.x_coeff + L.y_coeff * L.y_coeff);
+    double numerator = abs(L.x_coeff * P.x_coord + L.y_coeff * P.y_coord + L.constant);
+    return numerator/denominator;
+}
+
+pair<double,double> Utils::vectorSum(Line A, Line B)
+{
+    A.setUnitVector();
+    B.setUnitVector();
+    double idir = A.unitVectorIcoeff + B.unitVectorIcoeff;
+    double jdir = A.unitVectorJcoeff + B.unitVectorJcoeff;
+    return make_pair(idir, jdir);
+}
+
+// Acute angle between lines returned in radians and further converted to degrees
+double Utils::angleBwLines(Line R, Line S)
+{
+    double mSlopeR = -1 * (R.x_coeff/R.y_coeff);
+    double mSlopeS = -1 * (S.x_coeff/S.y_coeff);
+    double tanTheta = (mSlopeS - mSlopeR)/(1 + mSlopeS * mSlopeR);
+    return atan(tanTheta)*180/3.1415;
+}

@@ -28,11 +28,12 @@ using namespace std;
 
 void showCurrentWavefront(Polygon poly);
 void generateStraightSkeleton(Polygon poly);
+void moveVertices(double d, Polygon* polyPtr);
 
 int main(int argc, char const *argv[])
 {
     // Input vertices
-    vector<pair<int,int>> network = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
+    vector<pair<int,int>> network = {make_pair(1,5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
     
     // Creating polygon
     int vertexNumber = 0;
@@ -55,12 +56,51 @@ int main(int argc, char const *argv[])
 
     showCurrentWavefront(poly);
     //generateStraightSkeleton(poly);
+    cout << endl;
+    cout << endl;
+    
+    moveVertices(1.1, &poly);
+
+    /*
+    showCurrentWavefront(poly);
     
     pair<double,double> pdd = Utils::IntersectionPoint(prev->IncidentEdgeA, prev->IncidentEdgeB);
     cout << pdd.first << endl;
     cout << pdd.second << endl;
 
+    double angle = Utils::angleBwLines(prev->IncidentEdgeA, prev->IncidentEdgeB);
+    cout << "Angle = " << angle << endl; 
+
+    prev = prev->adjVertexNext;
+    prev = prev->adjVertexNext;
+    angle = Utils::angleBwLines(prev->IncidentEdgeA, prev->IncidentEdgeB);
+    cout << "Angle = " << angle << endl;
+    angle = Utils::angleBwLines(prev->IncidentEdgeA, prev->angleBisector);
+    cout << "Angle = " << angle << endl;
+    */
     return 0;
+}
+
+void moveVertices(double d, Polygon* polyPtr)
+{
+    Vertex* vertexIterator = polyPtr->LAV.head;
+    int vertexNumber = 0;
+    while (vertexNumber < polyPtr->LAV.size)
+    {
+        vertexIterator->modifyCoordinates(d);
+        vertexIterator = vertexIterator->adjVertexNext;
+        vertexNumber++;
+    }
+
+    vertexIterator = polyPtr->LAV.head;
+    vertexNumber = 0;
+    while (vertexNumber < polyPtr->LAV.size)
+    {
+        cout << vertexIterator->x_coord << ",,,,, " << vertexIterator->y_coord << endl;
+        vertexIterator = vertexIterator->adjVertexNext;
+        vertexNumber++;
+    }
+    
 }
 
 void showCurrentWavefront(Polygon poly)
