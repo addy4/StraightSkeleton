@@ -30,9 +30,6 @@ pair<double,double> Utils::IntersectionPoint(Line liA, Line liB)
     // Line A: a1x + b1y = c1
     // Line B: a2x + b2y = c2
 
-    //liA.Show();
-    //liB.Show();
-
     double determinant = liA.x_coeff * liB.y_coeff - liB.x_coeff * liA.y_coeff;
 
     if(determinant == 0) 
@@ -58,8 +55,6 @@ double Utils::distanceFromLine(Vertex P, Line L)
 
 pair<double,double> Utils::vectorSum(Line A, Line B)
 {
-    A.setUnitVector();
-    B.setUnitVector();
     double idir = A.unitVectorIcoeff + B.unitVectorIcoeff;
     double jdir = A.unitVectorJcoeff + B.unitVectorJcoeff;
     return make_pair(idir, jdir);

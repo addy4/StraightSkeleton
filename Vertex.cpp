@@ -21,6 +21,7 @@ Vertex::Vertex(double x_coord, double y_coord)
 
 void Vertex::Info()
 {
+    #if DEBUG == 1
     cout << "########################################" << endl;
     
     // Current vertex
@@ -45,22 +46,18 @@ void Vertex::Info()
     cout << endl;
 
     cout << "########################################" << endl;
+    #endif
 }
 
 void Vertex::setIncidentEdges()
 {
-    cout << ".. setting incident edges .." << endl;
-    // Current vertex
-    cout << "At vertex... (" << this->x_coord << ", " << this->y_coord << ")" << endl;
-    cout << endl;
-
-    // Adjacent vertices
-    cout << "Next vertex .... (" << this->adjVertexNext->x_coord << ", " << this->adjVertexNext->y_coord << ")" << endl;
-    cout << "Previous vertex .... (" << this->adjVertexPrev->x_coord << ", " << this->adjVertexPrev->y_coord << ")" << endl;
-    cout << endl;
-
+    // Equations for incident edges
     this->IncidentEdgeA = Line(this->x_coord, this->y_coord, adjVertexNext->x_coord, adjVertexNext->y_coord);
     this->IncidentEdgeB = Line(this->x_coord, this->y_coord, adjVertexPrev->x_coord, adjVertexPrev->y_coord);
+
+    // Unit vector representation
+    this->IncidentEdgeA.setUnitVector();
+    this->IncidentEdgeB.setUnitVector();
 }
 
 void Vertex::computeAngleType()
@@ -68,14 +65,8 @@ void Vertex::computeAngleType()
     // Initially angle set to E
     this->angleType = 'E';
 
-    // Getting edges connected to next and previous vertex
-    // this->IncidentEdgeA = Line(this->x_coord, this->y_coord, adjVertexNext->x_coord, adjVertexNext->y_coord);
-    // this->IncidentEdgeB = Line(this->x_coord, this->y_coord, adjVertexPrev->x_coord, adjVertexPrev->y_coord);
-
-    // For determining whether angle at vertex is obtuse or acute
+    // For determining whether angle at vertex is obtuse or acute or 90 using vector representation of Lines
     int costheta = Utils::dotProductSign(this->IncidentEdgeA, this->IncidentEdgeB);
-
-    cout << "costheta = " << costheta << endl;
     
     if(costheta > 0) {
         this->angleType = 'A';
@@ -94,19 +85,11 @@ void Vertex::setAngleBisector()
     Line bisector;
 
     if(this->angleType == 'E') {
-        //double desiredSlope = (this->IncidentEdgeA.jcoeff + this->IncidentEdgeB.jcoeff)/(this->IncidentEdgeA.icoeff + this->IncidentEdgeB.icoeff);
-        this->IncidentEdgeA.setUnitVector();
-        this->IncidentEdgeB.setUnitVector();
         
         double desiredSlope = (this->IncidentEdgeA.unitVectorJcoeff + this->IncidentEdgeB.unitVectorJcoeff)/(this->IncidentEdgeA.unitVectorIcoeff + this->IncidentEdgeB.unitVectorIcoeff);
         
-        cout << this->IncidentEdgeA.unitVectorIcoeff << ", " << this->IncidentEdgeA.unitVectorJcoeff << endl;
-        cout << this->IncidentEdgeB.unitVectorIcoeff << ", " << this->IncidentEdgeB.unitVectorJcoeff << endl;
-        
         double actualSlope;
         actualSlope = -(this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff)/(this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff);
-        cout << "desired slope --------- " << desiredSlope << endl;
-        cout << "actual slope ---------- " << actualSlope << endl;
         if(actualSlope * desiredSlope > 0) {
             bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff;
             bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff;
@@ -132,7 +115,6 @@ void Vertex::setAngleBisector()
             bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
         }
         else if(this->angleType == 'O') {
-            //this->IncidentEdgeA.ShowNormalized();
             bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff + this->IncidentEdgeB.normalizedXcoeff;
             bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff + this->IncidentEdgeB.normalizedYcoeff;
             bisector.constant = this->IncidentEdgeA.normalizedConstant + this->IncidentEdgeB.normalizedConstant;
