@@ -10,7 +10,7 @@ solution.exe > points.txt
 python wavePlot.py
 ```
 
-NOTE: wavePlot.py is a python script to plot points and line segments.
+**NOTE: wavePlot.py is a python script to plot points and line segments.** (used chatGPT to create this script)
 
 ## Modes
 - Simulation Mode
