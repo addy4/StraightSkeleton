@@ -30,6 +30,7 @@ public:
     ~Polygon();
 
     void addVertex(Vertex* v);
+    void removeVertex(Vertex* v);
     void addEdge(Vertex* v1, Vertex* v2, int i, int total);
 };
 

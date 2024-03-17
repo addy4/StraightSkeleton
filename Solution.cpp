@@ -18,6 +18,8 @@
 #include <utility>
 
 #define DEBUG 1
+#define SKEL 1
+#define SIMULATE 0
 
 #include "Line.hpp"
 #include "Vertex.hpp"
@@ -31,20 +33,21 @@ using namespace std;
 typedef vector<pair<double,double>> waveFront;
 
 void showCurrentWavefront(Polygon poly);
-void generateStraightSkeleton(Polygon poly);
+void AlgoGenerateStraightSkeleton(Polygon poly);
 void moveVertices(double d, Polygon* polyPtr);
+void generateStraightSkeleton(Polygon* polyPtr);
 
 int main(int argc, char const *argv[])
 {
     // Input vertices
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
-    // vector<pair<int,int>> network = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
-    vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7)};
+    // vector<pair<int,int>> networke = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
+    // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7)};
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(6, 3), make_pair(7, 7)};
     // vector<pair<int,int>> network = {make_pair(1, 4), make_pair(6, 1), make_pair(12, 4), make_pair(6, 18)};
     // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(17, 10), make_pair(15, 15)};
     // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(30, 12), make_pair(27, 19), make_pair(24, 19)};
-    // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(2,2), make_pair(30, 12), make_pair(32,19), make_pair(22, 29), make_pair(17, 27), make_pair(14, 24)};
+    vector<pair<int,int>> network = {make_pair(4, 9), make_pair(2,2), make_pair(30, 12), make_pair(32,19), make_pair(22, 29), make_pair(17, 27), make_pair(14, 24)};
     waveFront wave;
     
     // Creating polygon
@@ -68,6 +71,7 @@ int main(int argc, char const *argv[])
         vertexNumber++;  
     }
 
+    #if SIMULATE == 1
     /* Simulation of straight skeleton demonstrating shrinking polygon */
 
     // Utils::printWaveFront(wave);
@@ -84,6 +88,13 @@ int main(int argc, char const *argv[])
     showCurrentWavefront(poly);
 
     /* Simulation of straight skeleton demonstrating shrinking polygon */
+    #endif
+
+    #if SKEL == 1
+    Utils::printPolygon(wave);
+    generateStraightSkeleton(&poly);
+    //generateStraightSkeleton(&poly);
+    #endif
     
     return 0;
 }
@@ -98,6 +109,7 @@ void moveVertices(double d, Polygon* polyPtr)
     while (vertexNumber < polyPtr->LAV.size)
     {
         vertexIterator->modifyCoordinates(d);
+        //cout << "Modified.. " << vertexIterator->x_coord << ", " << vertexIterator->y_coord << endl;
         pointMovement = make_pair(vertexIterator->x_coord, vertexIterator->y_coord);
         wave.push_back(pointMovement);
         vertexIterator = vertexIterator->adjVertexNext;
@@ -137,7 +149,7 @@ void showCurrentWavefront(Polygon poly)
     /* debugging polygon for straight skeleton */
 }
 
-void generateStraightSkeleton(Polygon poly)
+void AlgoGenerateStraightSkeleton(Polygon poly)
 {
     // Stores segments for straight skeleton
     vector<Segment> SkeletonForConvexPolygon;
@@ -170,4 +182,88 @@ void generateStraightSkeleton(Polygon poly)
     
     // For all (v) vertices of LAV:
     //      v->setAngleBisector();
+}
+
+void generateStraightSkeleton(Polygon* polyPtr)
+{
+    vector<Segment> StraightSkeletonForPolygon;
+
+    /*
+    // If LAV.size <= 3, polygon collapses at next iteration
+    Vertex* currVertex = polyPtr->LAV.head;
+    Vertex* nextVertex;
+    double edgeDistance = INT16_MAX;
+
+    int VertexNumber = 0;
+
+    while (VertexNumber < polyPtr->LAV.size)
+    {
+        currVertex->setIncidentEdges();
+        currVertex->setAngleBisector();
+        Line currAngleBisector = currVertex->angleBisector;
+        
+        nextVertex = currVertex->adjVertexNext;
+        nextVertex->setIncidentEdges();
+        nextVertex->setAngleBisector();
+        Line nextAngleBisector = nextVertex->angleBisector;
+        
+        pair<double,double> Intersection = Utils::IntersectionPoint(currAngleBisector, nextAngleBisector);
+        double distanceFromEdge = Utils::distanceFromLine(Intersection, currVertex->IncidentEdgeA);
+        if(distanceFromEdge < edgeDistance) {
+            edgeDistance = distanceFromEdge;
+        }
+        currVertex = currVertex->adjVertexNext;
+        VertexNumber++;
+    }
+
+    moveVertices(edgeDistance, polyPtr);
+    */
+
+    // If LAV.size <= 3, polygon collapses at next iteration
+    Vertex* currVertex = polyPtr->LAV.head;
+    Vertex* nextVertex;
+    double edgeDistance = INT16_MAX;
+
+    while (polyPtr->LAV.size > 3)
+    {
+
+        //cout << "Number of vertices... " << polyPtr->LAV.size << endl;
+
+        int VertexNumber = 0;
+        while (VertexNumber < polyPtr->LAV.size)
+        {
+            currVertex->setIncidentEdges();
+            currVertex->setAngleBisector();
+            Line currAngleBisector = currVertex->angleBisector;
+        
+            nextVertex = currVertex->adjVertexNext;
+            nextVertex->setIncidentEdges();
+            nextVertex->setAngleBisector();
+            Line nextAngleBisector = nextVertex->angleBisector;
+        
+            pair<double,double> Intersection = Utils::IntersectionPoint(currAngleBisector, nextAngleBisector);
+            double distanceFromEdge = Utils::distanceFromLine(Intersection, currVertex->IncidentEdgeA);
+            if(distanceFromEdge < edgeDistance) {
+                edgeDistance = distanceFromEdge;
+            }
+            currVertex = currVertex->adjVertexNext;
+            VertexNumber++;
+        }
+
+        // Move vertices
+        moveVertices(edgeDistance, polyPtr);
+
+        // Remove coincing vertices
+        VertexNumber = 0;
+        currVertex = polyPtr->LAV.head;
+        while (VertexNumber < polyPtr->LAV.size)
+        {
+            nextVertex = currVertex->adjVertexNext;
+            if(Utils::coincide(*currVertex, *nextVertex)) {
+                polyPtr->removeVertex(currVertex);
+            }
+            currVertex = currVertex->adjVertexNext;
+            VertexNumber++;
+        }   
+    }
 }

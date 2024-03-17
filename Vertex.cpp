@@ -170,8 +170,12 @@ void Vertex::modifyCoordinates(double d)
 
     double bisectorAngleRadians = bisectorAngleDegrees * 3.1415 / 180.0; 
 
+    //this->IncidentEdgeA.Show();
+    //this->IncidentEdgeB.Show();
+
     // Get vertex movement directions
     pair<double, double> vectorResultant = Utils::vectorSum(this->IncidentEdgeB, this->IncidentEdgeA);
+
 
     double xdirection;
     double ydirection;
@@ -194,6 +198,10 @@ void Vertex::modifyCoordinates(double d)
         ydirection = vectorResultant.second/abs(vectorResultant.second);
     }
     
+    //cout << "xdir: " << xdirection << ", ydir: " << ydirection << endl;
+    //cout << "ldistance: " << lDistance << endl;
+    //cout << "cos theta: " << cos(bisectorAngleRadians) << endl;
+
     this->x_coord = this->x_coord + xdirection * lDistance * cos(bisectorAngleRadians);
     this->y_coord = this->y_coord + ydirection * lDistance * sin(bisectorAngleRadians);
 }

@@ -25,6 +25,17 @@ int Utils::dotProductSign(Line incident1, Line incident2)
     return 0;
 }
 
+bool Utils::coincide(Vertex A, Vertex B)
+{
+    if(abs(B.x_coord - A.x_coord) > 0.75) {
+        return false;
+    }
+    if(abs(B.y_coord - A.y_coord) > 0.75) {
+        return false;
+    }
+    return true;
+}
+
 pair<double,double> Utils::IntersectionPoint(Line liA, Line liB)
 {
     liA.constant = -1 * liA.constant;
@@ -49,10 +60,10 @@ pair<double,double> Utils::IntersectionPoint(Line liA, Line liB)
     return make_pair(INT16_MIN, INT16_MIN);
 }
 
-double Utils::distanceFromLine(Vertex P, Line L)
+double Utils::distanceFromLine(pair<double,double> Intersection, Line L)
 {
     double denominator = sqrt(L.x_coeff * L.x_coeff + L.y_coeff * L.y_coeff);
-    double numerator = abs(L.x_coeff * P.x_coord + L.y_coeff * P.y_coord + L.constant);
+    double numerator = abs(L.x_coeff * Intersection.first + L.y_coeff * Intersection.second + L.constant);
     return numerator/denominator;
 }
 

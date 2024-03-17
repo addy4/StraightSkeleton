@@ -32,6 +32,29 @@ void Polygon::addVertex(Vertex* v)
     this->LAV.size++;
 }
 
+void Polygon::removeVertex(Vertex* v)
+{
+    if(this->LAV.size == 0) {
+        cout << "Empty LAV" << endl;
+        return;
+    }
+
+    Vertex* prevAdj = v->adjVertexPrev;
+    Vertex* nextAdj = v->adjVertexNext;
+    prevAdj->adjVertexNext = nextAdj;
+    nextAdj->adjVertexPrev = prevAdj;
+
+    if(v == this->LAV.head) {
+        this->LAV.head = nextAdj;
+    }
+
+    if(v == this->LAV.tail) {
+        this->LAV.tail = prevAdj;
+    }
+
+    this->LAV.size--;
+}
+
 // This method is redundant logic hence not called
 void Polygon::addEdge(Vertex* v1, Vertex* v2, int i, int total)
 {
