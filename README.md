@@ -36,15 +36,17 @@ python wavePlot.py
     - Set angle bisector
 3. _dMin = INTMAX_
 4. For each vertex:
-    - Get intersection _INX_ point of angle bisector of current vertex and next vertex
+    - Get intersection point _(INX)_ of the angle bisectors of current vertex and next vertex
     - Compute distance _d_ of intersection point with incident edges
     - _dMin = d < dMin ? d : dMin_
-5. **For vertex associated to _dMin_, do StraightSkeletonSketch.add((vertex.xCoordinate, INX.xCoordinate) to (vertex.yCoordinate, INX.yCoordinare))**
-5. For each vertex:
+4. Save INX associated to least _d_ value. **Add line segments connecting (vertex,INX) and (nextVertex,INX)**
+6. The edge lying between the two angle bisectors i.e. edge connecting current vertex to next vertex COLLAPSES.  
+7. For each vertex:
     - Compute _l_ according to _dMin_ which is the distance to be moved by the vertex along bisector _(trignometric functions used)_
     - Modify vertex coordinates
-6. Repeat from **2** to **5** (until LAV.size <= 3)
-7. Print **StraightSkeletonSketch**  
+8. Remove the coinciding vertices (of collapsed edges) **leaving just one of them**
+9. Repeat from **2** to **9** (until LAV.size <= 3)
+10. Print **StraightSkeletonSketch**  
   
 ![SkeletonPolygon](https://github.com/addy4/StraightSkeleton/assets/42651751/705f4711-aba4-4425-8430-b670f91914d8)
 
