@@ -47,8 +47,9 @@ int main(int argc, char const *argv[])
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(6, 3), make_pair(7, 7)};
     // vector<pair<int,int>> network = {make_pair(1, 4), make_pair(6, 1), make_pair(12, 4), make_pair(6, 18)};
     // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(17, 10), make_pair(15, 15)};
-    vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(30, 12), make_pair(27, 19), make_pair(24, 19)};
+    // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(30, 12), make_pair(27, 19), make_pair(24, 19)};
     // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(2,2), make_pair(30, 12), make_pair(32,19), make_pair(22, 29), make_pair(17, 27), make_pair(14, 24)};
+    vector<pair<int,int>> network = {make_pair(1, 1), make_pair(8, 2), make_pair(14, 6), make_pair(11, 9), make_pair(6, 10), make_pair(4, 9)};
     waveFront wave;
     
     // Creating polygon
