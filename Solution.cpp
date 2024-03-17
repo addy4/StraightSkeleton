@@ -35,6 +35,7 @@ typedef vector<pair<double,double>> waveFront;
 void showCurrentWavefront(Polygon poly);
 void AlgoGenerateStraightSkeleton(Polygon poly);
 void moveVertices(double d, Polygon* polyPtr);
+void moveVerticesAndSaveSegments(double d, Polygon* polyPtr, vector<Segment>& skeleton);
 void generateStraightSkeleton(Polygon* polyPtr);
 
 int main(int argc, char const *argv[])
@@ -44,10 +45,10 @@ int main(int argc, char const *argv[])
     // vector<pair<int,int>> networke = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7)};
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(6, 3), make_pair(7, 7)};
-    // vector<pair<int,int>> network = {make_pair(1, 4), make_pair(6, 1), make_pair(12, 4), make_pair(6, 18)};
+    vector<pair<int,int>> network = {make_pair(1, 4), make_pair(6, 1), make_pair(12, 4), make_pair(6, 18)};
     // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(17, 10), make_pair(15, 15)};
     // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(0, 2), make_pair(30, 12), make_pair(27, 19), make_pair(24, 19)};
-    vector<pair<int,int>> network = {make_pair(4, 9), make_pair(2,2), make_pair(30, 12), make_pair(32,19), make_pair(22, 29), make_pair(17, 27), make_pair(14, 24)};
+    // vector<pair<int,int>> network = {make_pair(4, 9), make_pair(2,2), make_pair(30, 12), make_pair(32,19), make_pair(22, 29), make_pair(17, 27), make_pair(14, 24)};
     waveFront wave;
     
     // Creating polygon
@@ -109,6 +110,41 @@ void moveVertices(double d, Polygon* polyPtr)
     while (vertexNumber < polyPtr->LAV.size)
     {
         vertexIterator->modifyCoordinates(d);
+        //cout << "Modified.. " << vertexIterator->x_coord << ", " << vertexIterator->y_coord << endl;
+        pointMovement = make_pair(vertexIterator->x_coord, vertexIterator->y_coord);
+        wave.push_back(pointMovement);
+        vertexIterator = vertexIterator->adjVertexNext;
+        vertexNumber++;
+    }
+
+    //Utils::printWaveFront(wave);
+    Utils::printPolygon(wave);
+
+    vertexIterator = polyPtr->LAV.head;
+    vertexNumber = 0;
+    pair<double,double> FinalPoints;
+    while (vertexNumber < polyPtr->LAV.size)
+    {
+        vertexIterator->setIncidentEdges();
+        vertexIterator = vertexIterator->adjVertexNext;
+        vertexNumber++;
+    }
+    
+}
+
+void moveVerticesAndSaveSegments(double d, Polygon* polyPtr, vector<Segment>& skeleton)
+{
+    waveFront wave;
+    pair<double,double> pointMovement;
+
+    Vertex* vertexIterator = polyPtr->LAV.head;
+    int vertexNumber = 0;
+    while (vertexNumber < polyPtr->LAV.size)
+    {
+        pair<double,double> start = make_pair(vertexIterator->x_coord, vertexIterator->y_coord);
+        vertexIterator->modifyCoordinates(d);
+        pair<double,double> end = make_pair(vertexIterator->x_coord, vertexIterator->y_coord);
+        skeleton.push_back(Segment(start, end));
         //cout << "Modified.. " << vertexIterator->x_coord << ", " << vertexIterator->y_coord << endl;
         pointMovement = make_pair(vertexIterator->x_coord, vertexIterator->y_coord);
         wave.push_back(pointMovement);
@@ -251,7 +287,8 @@ void generateStraightSkeleton(Polygon* polyPtr)
         }
 
         // Move vertices
-        moveVertices(edgeDistance, polyPtr);
+        //moveVertices(edgeDistance, polyPtr);
+        moveVerticesAndSaveSegments(edgeDistance, polyPtr, StraightSkeletonForPolygon);
 
         // Remove coincing vertices
         VertexNumber = 0;
@@ -266,4 +303,6 @@ void generateStraightSkeleton(Polygon* polyPtr)
             VertexNumber++;
         }   
     }
+
+    Utils::printSkeleton(StraightSkeletonForPolygon);
 }

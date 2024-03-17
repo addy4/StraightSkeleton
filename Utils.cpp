@@ -1,6 +1,7 @@
 #include "Utils.hpp"
 #include "Line.hpp"
 #include "Vertex.hpp"
+#include "Segment.hpp"
 #include <utility>
 #include <cmath>
 #include <climits>
@@ -103,5 +104,12 @@ void Utils::printWaveFront(waveFront wave)
     for(auto wavePoint : wave)
     {
         cout << wavePoint.first << ", " << wavePoint.second << endl;
+    }
+}
+
+void Utils::printSkeleton(vector<Segment> skeleton)
+{
+    for(auto s : skeleton) {
+        cout << s.source.first << ", " << s.source.second << ", " << s.dest.first << ", " << s.dest.second << endl;
     }
 }

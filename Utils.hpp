@@ -3,6 +3,7 @@
 
 #include "Line.hpp"
 #include "Vertex.hpp"
+#include "Segment.hpp"
 #include <utility>
 
 using namespace std;
@@ -23,6 +24,7 @@ public:
     static double angleBwLines(Line A, Line B);
     static void printPolygon(waveFront wave);
     static void printWaveFront(waveFront wave);
+    static void printSkeleton(vector<Segment> skeleton);
 };
 
 #endif //UTILS_HPP
