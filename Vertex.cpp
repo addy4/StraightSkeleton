@@ -69,8 +69,6 @@ void Vertex::computeAngleType()
 
     // For determining whether angle at vertex is obtuse or acute or 90 using vector representation of Lines
     int costheta = Utils::dotProductSign(this->IncidentEdgeA, this->IncidentEdgeB);
-    
-    //cout << "cos theta -> " << costheta << endl;
 
     if(costheta > 0) {
         this->angleType = 'A';
@@ -85,8 +83,6 @@ void Vertex::computeAngleType()
 void Vertex::setAngleBisector()
 {
     this->computeAngleType();
-
-    //cout << this->angleType << endl;
 
     Line bisector;
 
@@ -113,9 +109,6 @@ void Vertex::setAngleBisector()
     if(this->IncidentEdgeA.constant * this->IncidentEdgeB.constant < 0) {
         IncidentEdgeB.reverseSign();
     }
-
-    //this->IncidentEdgeA.ShowNormalized();
-    //this->IncidentEdgeB.ShowNormalized();
 
     if((this->IncidentEdgeA.x_coeff * this->IncidentEdgeB.x_coeff + this->IncidentEdgeA.y_coeff * this->IncidentEdgeB.y_coeff) < 0) {
         if(this->angleType == 'A') {
