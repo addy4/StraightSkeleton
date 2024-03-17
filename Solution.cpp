@@ -42,7 +42,6 @@ int main(int argc, char const *argv[])
 {
     // Input vertices
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
-    // vector<pair<int,int>> networke = {make_pair(4, 1), make_pair(8, 3), make_pair(7, 7), make_pair(3, 9)};
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(8, 3), make_pair(7, 7)};
     // vector<pair<int,int>> network = {make_pair(1, 5), make_pair(4, 1), make_pair(6, 3), make_pair(7, 7)};
     // vector<pair<int,int>> network = {make_pair(1, 4), make_pair(6, 1), make_pair(12, 4), make_pair(6, 18)};
