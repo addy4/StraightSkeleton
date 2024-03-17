@@ -1,16 +1,18 @@
 #ifndef SEGMENT_HPP
 #define SEGMENT_HPP
 
-#include "Vertex.hpp"
+#include <utility>
+
+using namespace std;
 
 // Line Segment Added To Straight Skeleton
 class Segment
 {
 public:
-    Vertex sA;
-    Vertex sB;
+    pair<double,double> source;
+    pair<double,double>  dest;
 
-    Segment();
+    Segment(pair<double,double> vA, pair<double,double> vB);
     ~Segment();
 };
 
