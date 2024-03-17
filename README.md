@@ -25,7 +25,7 @@ NOTE: wavePlot.py is a python script to plot points and line segments.
 4. For each vertex:
     - Compute _l_ which is the distance to be moved by the vertex along bisector _(trignometric functions used)_
     - Modify vertex coordinates
-6. Repeat from **2** to **4**
+6. Repeat from **2** to **4** for N iterations (N can be given as input)
 
 ![simulatePolygon](https://github.com/addy4/StraightSkeleton/assets/42651751/57cd6ef9-6a83-4dff-ba68-ddd27ff5f7c8)
 
@@ -43,7 +43,7 @@ NOTE: wavePlot.py is a python script to plot points and line segments.
 5. For each vertex:
     - Compute _l_ according to _dMin_ which is the distance to be moved by the vertex along bisector _(trignometric functions used)_
     - Modify vertex coordinates
-6. Repeat from **2** to **5**
+6. Repeat from **2** to **5** (until LAV.size <= 3)
 7. Print **StraightSkeletonSketch**  
   
 ![SkeletonPolygon](https://github.com/addy4/StraightSkeleton/assets/42651751/705f4711-aba4-4425-8430-b670f91914d8)
