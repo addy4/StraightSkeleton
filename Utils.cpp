@@ -12,12 +12,7 @@ using namespace std;
 
 int Utils::dotProductSign(Line incident1, Line incident2)
 {
-    return 0;
-    if(abs((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff)) < 0.05) {
-        return 0;
-    }
     if((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) > 0) {
-        //cout << "SUM: " << (incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) << endl;
         return +1;
     }
     else if((incident1.icoeff * incident2.icoeff + incident1.jcoeff * incident2.jcoeff) < 0) {

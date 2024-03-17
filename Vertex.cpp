@@ -82,8 +82,30 @@ void Vertex::computeAngleType()
 
 void Vertex::setAngleBisector()
 {
-    this->computeAngleType();
+    Line bisector;
 
+    double desiredSlope = (this->IncidentEdgeA.unitVectorJcoeff + this->IncidentEdgeB.unitVectorJcoeff)/(this->IncidentEdgeA.unitVectorIcoeff + this->IncidentEdgeB.unitVectorIcoeff);
+        
+    double actualSlope;
+    actualSlope = -(this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff)/(this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff);
+    if(actualSlope * desiredSlope > 0) {
+        bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff - this->IncidentEdgeB.normalizedXcoeff;
+        bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff - this->IncidentEdgeB.normalizedYcoeff;
+        bisector.constant = this->IncidentEdgeA.normalizedConstant - this->IncidentEdgeB.normalizedConstant;
+    }
+    else {
+        bisector.x_coeff = this->IncidentEdgeA.normalizedXcoeff + this->IncidentEdgeB.normalizedXcoeff;
+        bisector.y_coeff = this->IncidentEdgeA.normalizedYcoeff + this->IncidentEdgeB.normalizedYcoeff;
+        bisector.constant = this->IncidentEdgeA.normalizedConstant + this->IncidentEdgeB.normalizedConstant; 
+    }
+    this->angleBisector = bisector;
+    return;
+}
+
+/*
+void Vertex::setAngleBisectorPrev()
+{
+    this->computeAngleType();
     Line bisector;
 
     if(this->angleType == 'E') {
@@ -138,6 +160,7 @@ void Vertex::setAngleBisector()
     this->angleBisector = bisector;
     return;
 }
+*/
 
 // Modify vertex XY coordinates based on the distance moved by edge
 void Vertex::modifyCoordinates(double d)
