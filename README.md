@@ -1,6 +1,17 @@
 # Straight Skeleton
 Straight Skeleton algorithm computation for convex polygons. 
 
+## How to run
+```bash
+# Makefile needs to be edited for UNIX environment
+make clean
+make
+solution.exe > points.txt
+python wavePlot.py
+```
+
+NOTE: wavePlot.py is a python script to plot points and line segments.
+
 ## Modes
 - Simulation Mode
 - Skeleton Generation Mode
